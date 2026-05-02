@@ -144,12 +144,11 @@ class OrderController extends Controller
 
         $fedex_rates = [];
         try {
-            $fromZip = "90210"; 
-            $toZip = $address->postal_code ?? "10001";
-            $ratesJson = getShippingRates($fromZip, $toZip, $weight);
-            $ratesArr = json_decode($ratesJson, true);
-            if (!isset($ratesArr['error'])) {
-                $fedex_rates = $ratesArr;
+            $from = ['postalCode' => '90210', 'countryCode' => 'US'];
+            $to   = ['postalCode' => ($address->postal_code ?? '10001'), 'countryCode' => 'US'];
+            $rates = getShippingRates($from, $to, $weight);
+            if (is_array($rates) && count($rates) > 0) {
+                $fedex_rates = $rates;
             }
         } catch (\Exception $e) {
             // Ignore FedEx errors, just don't show FedEx options
