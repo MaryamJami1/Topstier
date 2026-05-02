@@ -117,19 +117,48 @@ class OrderController extends Controller
         $address = Address::find($address_id);
         $city = City::find($address->city_id);
 
+        $standard_delivery_cost = 0;
+        $express_delivery_cost = 0;
         if ($city && $city->zone != null) {
-            return response()->json([
-                'success' => true,
-                'standard_delivery_cost' => $city->zone->standard_delivery_cost,
-                'express_delivery_cost' => $city->zone->express_delivery_cost,
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'standard_delivery_cost' => 0,
-                'express_delivery_cost' => 0,
-            ]);
+            $standard_delivery_cost = $city->zone->standard_delivery_cost;
+            $express_delivery_cost  = $city->zone->express_delivery_cost;
         }
+
+        // FedEx live rates
+        require_once base_path('staging/fedex_integration/config.php');
+        require_once base_path('staging/fedex_integration/fedex_api.php');
+        require_once base_path('staging/fedex_integration/shipping_rates.php');
+
+        $weight = 1.0;
+        if (auth('api')->check()) {
+            $carts = Cart::with('product')->where('user_id', auth('api')->user()->id)->get();
+            $weight = 0;
+            foreach ($carts as $cart) {
+                if ($cart->product) {
+                    $weight += ($cart->product->weight > 0 ? $cart->product->weight : 1) * $cart->quantity;
+                }
+            }
+        }
+        if ($weight <= 0) $weight = 1.0;
+
+        $fedex_rates = [];
+        try {
+            $from  = ['postalCode' => '90210', 'countryCode' => 'US'];
+            $to    = ['postalCode' => ($address->postal_code ?? '10001'), 'countryCode' => 'US'];
+            $rates = getShippingRates($from, $to, $weight);
+            if (is_array($rates) && count($rates) > 0) {
+                $fedex_rates = $rates;
+            }
+        } catch (\Exception $e) {
+            // Ignore — don't block checkout if FedEx is down
+        }
+
+        return response()->json([
+            'success'               => true,
+            'standard_delivery_cost'=> $standard_delivery_cost,
+            'express_delivery_cost' => $express_delivery_cost,
+            'fedex_rates'           => $fedex_rates,
+        ]);
     }
 
     public function invoice_download(Request $request, $order_id)
@@ -267,7 +296,7 @@ class OrderController extends Controller
             ]);
 
         if ($request->type_of_delivery !== 'pickup') {
-            if ($request->delivery_type != 'standard' && $request->delivery_type != 'express')
+            if ($request->delivery_type != 'standard' && $request->delivery_type != 'express' && strpos($request->delivery_type, 'FEDEX_') === false)
                 return response()->json([
                     'success' => false,
                     'message' => translate('Please select a delivery option.')
@@ -285,7 +314,7 @@ class OrderController extends Controller
                     'message' => translate('Please select a billing address.')
                 ]);
 
-            if (!$shippingCity->zone)
+            if (!$shippingCity->zone && strpos($request->delivery_type, 'FEDEX_') === false)
                 return response()->json([
                     'success' => false,
                     'message' => translate('Sorry, delivery is not available in this shipping address.')
@@ -318,6 +347,8 @@ class OrderController extends Controller
             $shipping_cost = $shippingCity->zone->standard_delivery_cost;
         } elseif ($request->delivery_type == 'express' && $request->type_of_delivery !== 'pickup') {
             $shipping_cost = $shippingCity->zone->express_delivery_cost;
+        } elseif (strpos($request->delivery_type, 'FEDEX_') !== false && $request->type_of_delivery !== 'pickup') {
+            $shipping_cost = $request->shipping_cost ?? 0;
         }
 
        
