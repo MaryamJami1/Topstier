@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS orders (
 
 CREATE TABLE IF NOT EXISTS shipments (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT NOT NULL,
+    order_id BIGINT(20) NOT NULL,
     tracking_number VARCHAR(100) NOT NULL,
     label_format VARCHAR(10) DEFAULT 'PDF',
     label_data LONGTEXT,
