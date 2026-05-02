@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FedEx Shipping Rates Example</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .rate-option { margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; display: block; cursor: pointer; }
+        .rate-option:hover { background-color: #f9f9f9; }
+        #ratesContainer { margin-top: 20px; }
+        .order-summary { margin-top: 30px; padding: 20px; background-color: #f4f4f4; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h2>Calculate Shipping Rates</h2>
+    
+    <form id="shippingForm">
+        <div class="form-group">
+            <label for="fromZip">From ZIP Code (Sender):</label>
+            <input type="text" id="fromZip" value="90210" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="toZip">To ZIP Code (Recipient):</label>
+            <input type="text" id="toZip" value="10001" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="weight">Weight (lbs):</label>
+            <input type="number" id="weight" value="5" step="0.1" required>
+        </div>
+        
+        <button type="submit">Get Rates</button>
+    </form>
+
+    <div id="ratesContainer">
+        <!-- Rates will be dynamically rendered here -->
+    </div>
+
+    <!-- Hidden form representation for checkout/order submission -->
+    <div class="order-summary" id="orderSummary" style="display: none;">
+        <h3>Order Checkout Data</h3>
+        <p>This data would be submitted with your order:</p>
+        <form id="checkoutForm" action="/your-checkout-endpoint" method="POST">
+            <input type="hidden" id="selectedShippingService" name="shipping_service">
+            <input type="hidden" id="selectedShippingPrice" name="shipping_price">
+            
+            <p><strong>Selected Service:</strong> <span id="displayService">None</span></p>
+            <p><strong>Price:</strong> $<span id="displayPrice">0.00</span></p>
+            
+            <button type="button" onclick="alert('Order submitted with: ' + document.getElementById('selectedShippingService').value)">Submit Order</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('shippingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const container = document.getElementById('ratesContainer');
+            const summaryBox = document.getElementById('orderSummary');
+            
+            container.innerHTML = '<em>Loading rates from FedEx...</em>';
+            summaryBox.style.display = 'none';
+            
+            // Prepare payload
+            const payload = {
+                from_zip: document.getElementById('fromZip').value,
+                to_zip: document.getElementById('toZip').value,
+                weight: document.getElementById('weight').value,
+                from_country: 'US', // Hardcoded for example, could be dynamic
+                to_country: 'US'
+            };
+
+            try {
+                // Fetch rates from our new API endpoint
+                const response = await fetch('/staging/api/get_rates.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const rates = await response.json();
+                
+                if (rates.error) {
+                    container.innerHTML = `<p style="color:red;">Error: ${rates.error}</p>`;
+                    return;
+                }
+
+                if (rates.length === 0) {
+                    container.innerHTML = '<p>No rates found for these details.</p>';
+                    return;
+                }
+
+                // Render options
+                container.innerHTML = '<h3>Available Shipping Options:</h3>';
+                
+                rates.forEach((rate, index) => {
+                    const label = document.createElement('label');
+                    label.className = 'rate-option';
+                    
+                    // Auto-select the first option
+                    const isChecked = index === 0 ? 'checked' : '';
+                    
+                    label.innerHTML = `
+                        <input type="radio" name="rate_selection" value="${rate.serviceType}" data-name="${rate.serviceName}" data-price="${rate.price}" ${isChecked}>
+                        <strong>${rate.serviceName}</strong> - $${parseFloat(rate.price).toFixed(2)}
+                    `;
+                    
+                    // Listen for changes to update the order summary
+                    label.querySelector('input').addEventListener('change', updateOrderSummary);
+                    container.appendChild(label);
+                });
+
+                // Trigger initial summary update
+                updateOrderSummary();
+                summaryBox.style.display = 'block';
+                
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<p style="color:red;">Failed to fetch rates. Check console for details.</p>';
+            }
+        });
+
+        function updateOrderSummary() {
+            const selected = document.querySelector('input[name="rate_selection"]:checked');
+            if (selected) {
+                const serviceType = selected.value;
+                const serviceName = selected.dataset.name;
+                const price = selected.dataset.price;
+                
+                // Update hidden inputs for form submission
+                document.getElementById('selectedShippingService').value = serviceType; // Submits enum like FEDEX_GROUND
+                document.getElementById('selectedShippingPrice').value = price;
+                
+                // Update display
+                document.getElementById('displayService').innerText = serviceName; // Shows human readable name
+                document.getElementById('displayPrice').innerText = parseFloat(price).toFixed(2);
+            }
+        }
+    </script>
+</body>
+</html>
