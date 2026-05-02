@@ -117,19 +117,50 @@ class OrderController extends Controller
         $address = Address::find($address_id);
         $city = City::find($address->city_id);
 
+        $standard_delivery_cost = 0;
+        $express_delivery_cost = 0;
         if ($city && $city->zone != null) {
-            return response()->json([
-                'success' => true,
-                'standard_delivery_cost' => $city->zone->standard_delivery_cost,
-                'express_delivery_cost' => $city->zone->express_delivery_cost,
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'standard_delivery_cost' => 0,
-                'express_delivery_cost' => 0,
-            ]);
+            $standard_delivery_cost = $city->zone->standard_delivery_cost;
+            $express_delivery_cost = $city->zone->express_delivery_cost;
         }
+
+        // Add FedEx Rates Calculation
+        require_once base_path('fedex_integration/config.php');
+        require_once base_path('fedex_integration/fedex_api.php');
+        require_once base_path('fedex_integration/shipping_rates.php');
+
+        // Calculate total weight of user's cart
+        $weight = 1.0; // Default
+        if (auth('api')->check()) {
+            $carts = Cart::with('product')->where('user_id', auth('api')->user()->id)->get();
+            $weight = 0;
+            foreach ($carts as $cart) {
+                if ($cart->product) {
+                    $weight += ($cart->product->weight > 0 ? $cart->product->weight : 1) * $cart->quantity;
+                }
+            }
+        }
+        if ($weight <= 0) $weight = 1.0;
+
+        $fedex_rates = [];
+        try {
+            $fromZip = "90210"; 
+            $toZip = $address->postal_code ?? "10001";
+            $ratesJson = getShippingRates($fromZip, $toZip, $weight);
+            $ratesArr = json_decode($ratesJson, true);
+            if (!isset($ratesArr['error'])) {
+                $fedex_rates = $ratesArr;
+            }
+        } catch (\Exception $e) {
+            // Ignore FedEx errors, just don't show FedEx options
+        }
+
+        return response()->json([
+            'success' => true,
+            'standard_delivery_cost' => $standard_delivery_cost,
+            'express_delivery_cost' => $express_delivery_cost,
+            'fedex_rates' => $fedex_rates
+        ]);
     }
 
     public function invoice_download(Request $request, $order_id)
@@ -318,6 +349,8 @@ class OrderController extends Controller
             $shipping_cost = $shippingCity->zone->standard_delivery_cost;
         } elseif ($request->delivery_type == 'express' && $request->type_of_delivery !== 'pickup') {
             $shipping_cost = $shippingCity->zone->express_delivery_cost;
+        } elseif (strpos($request->delivery_type, 'FEDEX_') !== false && $request->type_of_delivery !== 'pickup') {
+            $shipping_cost = $request->shipping_cost ?? 0;
         }
 
        
@@ -484,6 +517,50 @@ class OrderController extends Controller
                 'user_id' => auth('api')->user()->id,
                 'note' => 'Order has been placed.',
             ]);
+
+            // Create FedEx Shipment if applicable
+            if (strpos($request->delivery_type, 'FEDEX_') !== false) {
+                $weight = 1.0;
+                foreach ($shop_cart_items as $cartItem) {
+                    if ($cartItem->product) {
+                        $weight += ($cartItem->product->weight > 0 ? $cartItem->product->weight : 1) * $cartItem->quantity;
+                    }
+                }
+                
+                $orderData = [
+                    'orderId' => $order->id,
+                    'customerEmail' => $user->email ?? 'guest@example.com',
+                    'shippingService' => $request->delivery_type,
+                    'totalWeight' => $weight,
+                    'toAddress' => [
+                        'streetLines' => [$shippingAddress->address ?? '123 Main St'],
+                        'city' => $shippingCity->name ?? 'Beverly Hills',
+                        'stateOrProvinceCode' => 'CA',
+                        'postalCode' => $shippingAddress->postal_code ?? '90210',
+                        'countryCode' => 'US'
+                    ]
+                ];
+                
+                try {
+                    $shipmentResult = createShipment($orderData);
+                    if (isset($shipmentResult['trackingNumber'])) {
+                        DB::table('shipments')->insert([
+                            'order_id' => $order->id,
+                            'tracking_number' => $shipmentResult['trackingNumber'],
+                            'label_format' => 'PDF',
+                            'label_data' => $shipmentResult['label'],
+                            'status' => 'created',
+                            'created_at' => now()
+                        ]);
+                        $order->tracking_number = $shipmentResult['trackingNumber'];
+                        $order->courier_name = 'FedEx';
+                        $order->tracking_url = url('fedex_integration/tracking.php?tracking_number=' . $shipmentResult['trackingNumber']);
+                        $order->save();
+                    }
+                } catch (\Exception $e) {
+                    Log::error("FedEx Shipment Error: " . $e->getMessage());
+                }
+            }
         }
         $combined_order->grand_total = $grand_total;
         $combined_order->save();
@@ -720,6 +797,8 @@ class OrderController extends Controller
             $shipping_cost = $shippingCity->zone->standard_delivery_cost;
         } elseif ($request->delivery_type == 'express' && $request->type_of_delivery !== 'pickup') {
             $shipping_cost = $shippingCity->zone->express_delivery_cost;
+        } elseif (strpos($request->delivery_type, 'FEDEX_') !== false && $request->type_of_delivery !== 'pickup') {
+            $shipping_cost = $request->shipping_cost ?? 0;
         }
 
        if ($request->type_of_delivery === 'pickup') {
@@ -884,6 +963,50 @@ class OrderController extends Controller
                 'user_id' => $request->create_account == 'true' ? $user->id : null,
                 'note' => 'Order has been placed.',
             ]);
+
+            // Create FedEx Shipment if applicable
+            if (strpos($request->delivery_type, 'FEDEX_') !== false) {
+                $weight = 1.0;
+                foreach ($shop_cart_items as $cartItem) {
+                    if ($cartItem->product) {
+                        $weight += ($cartItem->product->weight > 0 ? $cartItem->product->weight : 1) * $cartItem->quantity;
+                    }
+                }
+                
+                $orderData = [
+                    'orderId' => $order->id,
+                    'customerEmail' => $user_info['email'] ?? 'guest@example.com',
+                    'shippingService' => $request->delivery_type,
+                    'totalWeight' => $weight,
+                    'toAddress' => [
+                        'streetLines' => [$shippingAddress['address'] ?? '123 Main St'],
+                        'city' => $shippingCity->name ?? 'Beverly Hills',
+                        'stateOrProvinceCode' => 'CA',
+                        'postalCode' => $shippingAddress['postal_code'] ?? '90210',
+                        'countryCode' => 'US'
+                    ]
+                ];
+                
+                try {
+                    $shipmentResult = createShipment($orderData);
+                    if (isset($shipmentResult['trackingNumber'])) {
+                        DB::table('shipments')->insert([
+                            'order_id' => $order->id,
+                            'tracking_number' => $shipmentResult['trackingNumber'],
+                            'label_format' => 'PDF',
+                            'label_data' => $shipmentResult['label'],
+                            'status' => 'created',
+                            'created_at' => now()
+                        ]);
+                        $order->tracking_number = $shipmentResult['trackingNumber'];
+                        $order->courier_name = 'FedEx';
+                        $order->tracking_url = url('fedex_integration/tracking.php?tracking_number=' . $shipmentResult['trackingNumber']);
+                        $order->save();
+                    }
+                } catch (\Exception $e) {
+                    Log::error("FedEx Shipment Error: " . $e->getMessage());
+                }
+            }
         }
         $combined_order->grand_total = $grand_total;
         $combined_order->save();

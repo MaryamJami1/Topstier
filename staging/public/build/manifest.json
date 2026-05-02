@@ -3,73 +3,73 @@
     "file": "assets/ShowMore-81a0f868.css",
     "src": "ShowMore.css"
   },
-  "_AddressDialog-2e6aa74f.js": {
-    "file": "assets/AddressDialog-2e6aa74f.js",
+  "_AddressDialog-84b962af.js": {
+    "file": "assets/AddressDialog-84b962af.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_CouponBox-985052bf.js": {
-    "file": "assets/CouponBox-985052bf.js",
+  "_CouponBox-518742a7.js": {
+    "file": "assets/CouponBox-518742a7.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_FailedDialog-32883dd0.js": {
-    "file": "assets/FailedDialog-32883dd0.js",
+  "_FailedDialog-2e4854f9.js": {
+    "file": "assets/FailedDialog-2e4854f9.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_Payment-dff19467.js": {
-    "file": "assets/Payment-dff19467.js",
+  "_Payment-df8c9713.js": {
+    "file": "assets/Payment-df8c9713.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_RechargeDialog-81837459.js": {
-    "file": "assets/RechargeDialog-81837459.js",
+  "_RechargeDialog-a14d209a.js": {
+    "file": "assets/RechargeDialog-a14d209a.js",
     "imports": [
       "resources/js/app.js",
-      "_Payment-dff19467.js"
+      "_Payment-df8c9713.js"
     ]
   },
-  "_ShopBannerSectionTwo-7fac7ad3.js": {
-    "file": "assets/ShopBannerSectionTwo-7fac7ad3.js",
+  "_ShopBannerSectionTwo-1bef7e75.js": {
+    "file": "assets/ShopBannerSectionTwo-1bef7e75.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_ShopBox-b13ac0e6.js": {
-    "file": "assets/ShopBox-b13ac0e6.js",
+  "_ShopBox-7256eb4b.js": {
+    "file": "assets/ShopBox-7256eb4b.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_ShowMore-ce64f1a7.js": {
+  "_ShowMore-87ace8ae.js": {
     "css": [
       "assets/ShowMore-81a0f868.css"
     ],
-    "file": "assets/ShowMore-ce64f1a7.js",
+    "file": "assets/ShowMore-87ace8ae.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_Summary-291ead9b.js": {
-    "file": "assets/Summary-291ead9b.js",
+  "_Summary-e6f32675.js": {
+    "file": "assets/Summary-e6f32675.js",
     "imports": [
       "resources/js/app.js",
-      "_Payment-dff19467.js"
+      "_Payment-df8c9713.js"
     ]
   },
-  "_WithdrawDialog-56769cbb.js": {
-    "file": "assets/WithdrawDialog-56769cbb.js",
+  "_WithdrawDialog-7075d149.js": {
+    "file": "assets/WithdrawDialog-7075d149.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_grid-6737afa3.js": {
-    "file": "assets/grid-6737afa3.js",
+  "_grid-35c54781.js": {
+    "file": "assets/grid-35c54781.js",
     "imports": [
       "resources/js/app.js"
     ]
@@ -157,12 +157,12 @@
       "resources/js/components/user/UserLayout.vue",
       "resources/js/pages/errors/404.vue"
     ],
-    "file": "assets/app-1bb0383f.js",
+    "file": "assets/app-089a7419.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/js/components/deliveryboy/DeliveryBoyLayout.vue": {
-    "file": "assets/DeliveryBoyLayout-5f943098.js",
+    "file": "assets/DeliveryBoyLayout-f2c4db7e.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -177,7 +177,7 @@
     "css": [
       "assets/DatabaseNotification-da268d68.css"
     ],
-    "file": "assets/DatabaseNotification-7bbed72c.js",
+    "file": "assets/DatabaseNotification-bef13e73.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -185,7 +185,7 @@
     "src": "resources/js/components/notification/DatabaseNotification.vue"
   },
   "resources/js/components/user/UserLayout.vue": {
-    "file": "assets/UserLayout-c7fa6024.js",
+    "file": "assets/UserLayout-af42e43b.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -200,7 +200,7 @@
     "css": [
       "assets/AllBlogs-75dd6358.css"
     ],
-    "file": "assets/AllBlogs-f4c695fa.js",
+    "file": "assets/AllBlogs-62ea144d.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -208,7 +208,7 @@
     "src": "resources/js/pages/AllBlogs.vue"
   },
   "resources/js/pages/AllBrands.vue": {
-    "file": "assets/AllBrands-43ab928e.js",
+    "file": "assets/AllBrands-8e1bf347.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -216,7 +216,7 @@
     "src": "resources/js/pages/AllBrands.vue"
   },
   "resources/js/pages/AllCategories.vue": {
-    "file": "assets/AllCategories-1410104a.js",
+    "file": "assets/AllCategories-228c6248.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -224,7 +224,7 @@
     "src": "resources/js/pages/AllCategories.vue"
   },
   "resources/js/pages/AllOffers.vue": {
-    "file": "assets/AllOffers-e616059c.js",
+    "file": "assets/AllOffers-b9c1a2e8.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -232,7 +232,7 @@
     "src": "resources/js/pages/AllOffers.vue"
   },
   "resources/js/pages/BlogDetails.vue": {
-    "file": "assets/BlogDetails-d66f6e21.js",
+    "file": "assets/BlogDetails-63ce5ff9.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -247,13 +247,13 @@
     "css": [
       "assets/Checkout-676e6b76.css"
     ],
-    "file": "assets/Checkout-19719db4.js",
+    "file": "assets/Checkout-8c1e2353.js",
     "imports": [
       "resources/js/app.js",
-      "_AddressDialog-2e6aa74f.js",
-      "_RechargeDialog-81837459.js",
-      "_FailedDialog-32883dd0.js",
-      "_Payment-dff19467.js"
+      "_AddressDialog-84b962af.js",
+      "_RechargeDialog-a14d209a.js",
+      "_FailedDialog-2e4854f9.js",
+      "_Payment-df8c9713.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/Checkout.vue"
@@ -266,7 +266,7 @@
     "css": [
       "assets/ComparedProductList-3fe0f668.css"
     ],
-    "file": "assets/ComparedProductList-4611ce9c.js",
+    "file": "assets/ComparedProductList-b4987060.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -274,7 +274,7 @@
     "src": "resources/js/pages/ComparedProductList.vue"
   },
   "resources/js/pages/CustomPage.vue": {
-    "file": "assets/CustomPage-395479af.js",
+    "file": "assets/CustomPage-25de7d68.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -289,13 +289,13 @@
     "css": [
       "assets/Checkout-676e6b76.css"
     ],
-    "file": "assets/GuestCheckout-cbcfd632.js",
+    "file": "assets/GuestCheckout-c49cb157.js",
     "imports": [
       "resources/js/app.js",
-      "_AddressDialog-2e6aa74f.js",
-      "_RechargeDialog-81837459.js",
-      "_FailedDialog-32883dd0.js",
-      "_Payment-dff19467.js"
+      "_AddressDialog-84b962af.js",
+      "_RechargeDialog-a14d209a.js",
+      "_FailedDialog-2e4854f9.js",
+      "_Payment-df8c9713.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/GuestCheckout.vue"
@@ -308,17 +308,17 @@
     "css": [
       "assets/Home-ae893bfd.css"
     ],
-    "file": "assets/Home-eb46d2fc.js",
+    "file": "assets/Home-8e0d44dd.js",
     "imports": [
       "resources/js/app.js",
-      "_grid-6737afa3.js",
-      "_ShopBox-b13ac0e6.js"
+      "_grid-35c54781.js",
+      "_ShopBox-7256eb4b.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/Home.vue"
   },
   "resources/js/pages/OfferDetails.vue": {
-    "file": "assets/OfferDetails-404df9f7.js",
+    "file": "assets/OfferDetails-2bd9cace.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -326,11 +326,11 @@
     "src": "resources/js/pages/OfferDetails.vue"
   },
   "resources/js/pages/OrderConfirmed.vue": {
-    "file": "assets/OrderConfirmed-1752c563.js",
+    "file": "assets/OrderConfirmed-ae8ffd90.js",
     "imports": [
-      "_Summary-291ead9b.js",
+      "_Summary-e6f32675.js",
       "resources/js/app.js",
-      "_Payment-dff19467.js"
+      "_Payment-df8c9713.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/OrderConfirmed.vue"
@@ -343,7 +343,7 @@
     "css": [
       "assets/ProductDetails-db004109.css"
     ],
-    "file": "assets/ProductDetails-79cd6555.js",
+    "file": "assets/ProductDetails-7bd37919.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -358,26 +358,26 @@
     "css": [
       "assets/ProductListing-04409fc3.css"
     ],
-    "file": "assets/ProductListing-e906ebbb.js",
+    "file": "assets/ProductListing-be9079ae.js",
     "imports": [
-      "_ShowMore-ce64f1a7.js",
+      "_ShowMore-87ace8ae.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/ProductListing.vue"
   },
   "resources/js/pages/TrackOrder.vue": {
-    "file": "assets/TrackOrder-e958b29c.js",
+    "file": "assets/TrackOrder-55389282.js",
     "imports": [
       "resources/js/app.js",
-      "_Summary-291ead9b.js",
-      "_Payment-dff19467.js"
+      "_Summary-e6f32675.js",
+      "_Payment-df8c9713.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/TrackOrder.vue"
   },
   "resources/js/pages/auth/DeliveryBoyLogin.vue": {
-    "file": "assets/DeliveryBoyLogin-3c07000a.js",
+    "file": "assets/DeliveryBoyLogin-f0136698.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -385,7 +385,7 @@
     "src": "resources/js/pages/auth/DeliveryBoyLogin.vue"
   },
   "resources/js/pages/auth/ForgotPassword.vue": {
-    "file": "assets/ForgotPassword-c93b5af5.js",
+    "file": "assets/ForgotPassword-fd7ca8a8.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -393,7 +393,7 @@
     "src": "resources/js/pages/auth/ForgotPassword.vue"
   },
   "resources/js/pages/auth/Login.vue": {
-    "file": "assets/Login-dd953df7.js",
+    "file": "assets/Login-c477b9f7.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -401,7 +401,7 @@
     "src": "resources/js/pages/auth/Login.vue"
   },
   "resources/js/pages/auth/NewPassword.vue": {
-    "file": "assets/NewPassword-04aa1484.js",
+    "file": "assets/NewPassword-62775bcf.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -409,7 +409,7 @@
     "src": "resources/js/pages/auth/NewPassword.vue"
   },
   "resources/js/pages/auth/Registration.vue": {
-    "file": "assets/Registration-446dfffa.js",
+    "file": "assets/Registration-9152faea.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -417,7 +417,7 @@
     "src": "resources/js/pages/auth/Registration.vue"
   },
   "resources/js/pages/auth/VerifyAccount.vue": {
-    "file": "assets/VerifyAccount-0d408a8e.js",
+    "file": "assets/VerifyAccount-e37d3b92.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -425,7 +425,7 @@
     "src": "resources/js/pages/auth/VerifyAccount.vue"
   },
   "resources/js/pages/deliveryboy/AssignedDelivery.vue": {
-    "file": "assets/AssignedDelivery-24f9ba98.js",
+    "file": "assets/AssignedDelivery-e035cdd4.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -433,7 +433,7 @@
     "src": "resources/js/pages/deliveryboy/AssignedDelivery.vue"
   },
   "resources/js/pages/deliveryboy/CancelDelivery.vue": {
-    "file": "assets/CancelDelivery-55a82e93.js",
+    "file": "assets/CancelDelivery-2d3065be.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -441,7 +441,7 @@
     "src": "resources/js/pages/deliveryboy/CancelDelivery.vue"
   },
   "resources/js/pages/deliveryboy/CollectionsList.vue": {
-    "file": "assets/CollectionsList-b9810073.js",
+    "file": "assets/CollectionsList-c1b0b969.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -449,7 +449,7 @@
     "src": "resources/js/pages/deliveryboy/CollectionsList.vue"
   },
   "resources/js/pages/deliveryboy/CompletedDelivery.vue": {
-    "file": "assets/CompletedDelivery-b7752e7e.js",
+    "file": "assets/CompletedDelivery-7254f1ab.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -457,7 +457,7 @@
     "src": "resources/js/pages/deliveryboy/CompletedDelivery.vue"
   },
   "resources/js/pages/deliveryboy/DeliveryBoyDashboard.vue": {
-    "file": "assets/DeliveryBoyDashboard-f1b543cf.js",
+    "file": "assets/DeliveryBoyDashboard-5ba9a134.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -465,7 +465,7 @@
     "src": "resources/js/pages/deliveryboy/DeliveryBoyDashboard.vue"
   },
   "resources/js/pages/deliveryboy/EarningsList.vue": {
-    "file": "assets/EarningsList-7214f484.js",
+    "file": "assets/EarningsList-cbb11973.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -473,7 +473,7 @@
     "src": "resources/js/pages/deliveryboy/EarningsList.vue"
   },
   "resources/js/pages/deliveryboy/OnTheWayDelivery.vue": {
-    "file": "assets/OnTheWayDelivery-397109fb.js",
+    "file": "assets/OnTheWayDelivery-344a59ac.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -481,7 +481,7 @@
     "src": "resources/js/pages/deliveryboy/OnTheWayDelivery.vue"
   },
   "resources/js/pages/deliveryboy/PendingDelivery.vue": {
-    "file": "assets/PendingDelivery-bf474050.js",
+    "file": "assets/PendingDelivery-6eadcccd.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -489,7 +489,7 @@
     "src": "resources/js/pages/deliveryboy/PendingDelivery.vue"
   },
   "resources/js/pages/deliveryboy/PickedUpDelivery.vue": {
-    "file": "assets/PickedUpDelivery-8bd86bc6.js",
+    "file": "assets/PickedUpDelivery-410d01b2.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -497,7 +497,7 @@
     "src": "resources/js/pages/deliveryboy/PickedUpDelivery.vue"
   },
   "resources/js/pages/errors/404.vue": {
-    "file": "assets/404-5fb96e63.js",
+    "file": "assets/404-b8ed75cf.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -505,16 +505,16 @@
     "src": "resources/js/pages/errors/404.vue"
   },
   "resources/js/pages/shop/AllShops.vue": {
-    "file": "assets/AllShops-15883f19.js",
+    "file": "assets/AllShops-225d2f56.js",
     "imports": [
-      "_ShopBox-b13ac0e6.js",
+      "_ShopBox-7256eb4b.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/shop/AllShops.vue"
   },
   "resources/js/pages/shop/ShopConfirmation.vue": {
-    "file": "assets/ShopConfirmation-aee01268.js",
+    "file": "assets/ShopConfirmation-60b72a07.js",
     "imports": [
       "resources/js/app.js",
       "_shop-confirmation-32f65bd4.js"
@@ -523,9 +523,9 @@
     "src": "resources/js/pages/shop/ShopConfirmation.vue"
   },
   "resources/js/pages/shop/ShopCoupons.vue": {
-    "file": "assets/ShopCoupons-30b87239.js",
+    "file": "assets/ShopCoupons-7993dc38.js",
     "imports": [
-      "_CouponBox-985052bf.js",
+      "_CouponBox-518742a7.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -539,12 +539,12 @@
     "css": [
       "assets/ShopDetails-7387feb1.css"
     ],
-    "file": "assets/ShopDetails-e4d22d0e.js",
+    "file": "assets/ShopDetails-f0be651a.js",
     "imports": [
       "resources/js/app.js",
-      "_ShopBannerSectionTwo-7fac7ad3.js",
-      "_grid-6737afa3.js",
-      "_CouponBox-985052bf.js"
+      "_ShopBannerSectionTwo-1bef7e75.js",
+      "_grid-35c54781.js",
+      "_CouponBox-518742a7.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/shop/ShopDetails.vue"
@@ -557,7 +557,7 @@
     "css": [
       "assets/ShopLayout-6c10fc90.css"
     ],
-    "file": "assets/ShopLayout-24df7b11.js",
+    "file": "assets/ShopLayout-1ed35261.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -572,17 +572,17 @@
     "css": [
       "assets/ShopProducts-847c8bc6.css"
     ],
-    "file": "assets/ShopProducts-b6f58d58.js",
+    "file": "assets/ShopProducts-fbbe99da.js",
     "imports": [
-      "_ShopBannerSectionTwo-7fac7ad3.js",
-      "_ShowMore-ce64f1a7.js",
+      "_ShopBannerSectionTwo-1bef7e75.js",
+      "_ShowMore-87ace8ae.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/shop/ShopProducts.vue"
   },
   "resources/js/pages/shop/ShopRegistration.vue": {
-    "file": "assets/ShopRegistration-954a0981.js",
+    "file": "assets/ShopRegistration-50567408.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -590,7 +590,7 @@
     "src": "resources/js/pages/shop/ShopRegistration.vue"
   },
   "resources/js/pages/user/ConversationDetails.vue": {
-    "file": "assets/ConversationDetails-7bc28f60.js",
+    "file": "assets/ConversationDetails-0b785bf2.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -598,7 +598,7 @@
     "src": "resources/js/pages/user/ConversationDetails.vue"
   },
   "resources/js/pages/user/Conversations.vue": {
-    "file": "assets/Conversations-1cdd57d8.js",
+    "file": "assets/Conversations-bb164faf.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -606,9 +606,9 @@
     "src": "resources/js/pages/user/Conversations.vue"
   },
   "resources/js/pages/user/Coupon.vue": {
-    "file": "assets/Coupon-43da429e.js",
+    "file": "assets/Coupon-587484c9.js",
     "imports": [
-      "_CouponBox-985052bf.js",
+      "_CouponBox-518742a7.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -622,18 +622,18 @@
     "css": [
       "assets/Dashboard-5e978e02.css"
     ],
-    "file": "assets/Dashboard-f0250854.js",
+    "file": "assets/Dashboard-6fdd1bad.js",
     "imports": [
       "resources/js/app.js",
-      "_AddressDialog-2e6aa74f.js",
-      "_RechargeDialog-81837459.js",
-      "_Payment-dff19467.js"
+      "_AddressDialog-84b962af.js",
+      "_RechargeDialog-a14d209a.js",
+      "_Payment-df8c9713.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/user/Dashboard.vue"
   },
   "resources/js/pages/user/Downloads.vue": {
-    "file": "assets/Downloads-2156dd2a.js",
+    "file": "assets/Downloads-ebc8cf7e.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -641,7 +641,7 @@
     "src": "resources/js/pages/user/Downloads.vue"
   },
   "resources/js/pages/user/EarningPoints.vue": {
-    "file": "assets/EarningPoints-ca4ede47.js",
+    "file": "assets/EarningPoints-c80eb303.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -649,35 +649,35 @@
     "src": "resources/js/pages/user/EarningPoints.vue"
   },
   "resources/js/pages/user/FollowedShops.vue": {
-    "file": "assets/FollowedShops-823e2b3b.js",
+    "file": "assets/FollowedShops-40947fa1.js",
     "imports": [
-      "_ShopBox-b13ac0e6.js",
+      "_ShopBox-7256eb4b.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/user/FollowedShops.vue"
   },
   "resources/js/pages/user/OrderDetails.vue": {
-    "file": "assets/OrderDetails-22a8057c.js",
+    "file": "assets/OrderDetails-c98672d2.js",
     "imports": [
-      "_Summary-291ead9b.js",
+      "_Summary-e6f32675.js",
       "resources/js/app.js",
-      "_Payment-dff19467.js"
+      "_Payment-df8c9713.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/user/OrderDetails.vue"
   },
   "resources/js/pages/user/Profile.vue": {
-    "file": "assets/Profile-54367bbe.js",
+    "file": "assets/Profile-1c334f98.js",
     "imports": [
       "resources/js/app.js",
-      "_AddressDialog-2e6aa74f.js"
+      "_AddressDialog-84b962af.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/user/Profile.vue"
   },
   "resources/js/pages/user/PurchaseHistory.vue": {
-    "file": "assets/PurchaseHistory-83c60b73.js",
+    "file": "assets/PurchaseHistory-a4351880.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -685,17 +685,17 @@
     "src": "resources/js/pages/user/PurchaseHistory.vue"
   },
   "resources/js/pages/user/Wallet.vue": {
-    "file": "assets/Wallet-9b5c07f8.js",
+    "file": "assets/Wallet-4a39a351.js",
     "imports": [
       "resources/js/app.js",
-      "_RechargeDialog-81837459.js",
-      "_Payment-dff19467.js"
+      "_RechargeDialog-a14d209a.js",
+      "_Payment-df8c9713.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/user/Wallet.vue"
   },
   "resources/js/pages/user/Wishlist.vue": {
-    "file": "assets/Wishlist-12674de1.js",
+    "file": "assets/Wishlist-7082cf56.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -703,34 +703,34 @@
     "src": "resources/js/pages/user/Wishlist.vue"
   },
   "resources/js/pages/user/affiliate/Affiliate.vue": {
-    "file": "assets/Affiliate-ef82ba40.js",
+    "file": "assets/Affiliate-877e9374.js",
     "imports": [
       "resources/js/app.js",
-      "_WithdrawDialog-56769cbb.js"
+      "_WithdrawDialog-7075d149.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/user/affiliate/Affiliate.vue"
   },
   "resources/js/pages/user/affiliate/AffiliatePaymentHistory.vue": {
-    "file": "assets/AffiliatePaymentHistory-7290d24f.js",
+    "file": "assets/AffiliatePaymentHistory-97ef75eb.js",
     "imports": [
       "resources/js/app.js",
-      "_WithdrawDialog-56769cbb.js"
+      "_WithdrawDialog-7075d149.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/user/affiliate/AffiliatePaymentHistory.vue"
   },
   "resources/js/pages/user/affiliate/AffiliatePaymentWithdraw.vue": {
-    "file": "assets/AffiliatePaymentWithdraw-9d61d5d9.js",
+    "file": "assets/AffiliatePaymentWithdraw-7c6d9748.js",
     "imports": [
       "resources/js/app.js",
-      "_WithdrawDialog-56769cbb.js"
+      "_WithdrawDialog-7075d149.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/pages/user/affiliate/AffiliatePaymentWithdraw.vue"
   },
   "resources/js/pages/user/affiliate/AffiliateRegConfirmation.vue": {
-    "file": "assets/AffiliateRegConfirmation-d9496dbf.js",
+    "file": "assets/AffiliateRegConfirmation-78706e4c.js",
     "imports": [
       "_shop-confirmation-32f65bd4.js",
       "resources/js/app.js"
@@ -739,7 +739,7 @@
     "src": "resources/js/pages/user/affiliate/AffiliateRegConfirmation.vue"
   },
   "resources/js/pages/user/affiliate/AffiliateRegistration.vue": {
-    "file": "assets/AffiliateRegistration-ad9407d1.js",
+    "file": "assets/AffiliateRegistration-51d5528d.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -747,7 +747,7 @@
     "src": "resources/js/pages/user/affiliate/AffiliateRegistration.vue"
   },
   "resources/js/pages/user/refund_request/RefundRequestCreate.vue": {
-    "file": "assets/RefundRequestCreate-d9c5434d.js",
+    "file": "assets/RefundRequestCreate-1b66ec64.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -755,7 +755,7 @@
     "src": "resources/js/pages/user/refund_request/RefundRequestCreate.vue"
   },
   "resources/js/pages/user/refund_request/RefundRequestList.vue": {
-    "file": "assets/RefundRequestList-1b0061d7.js",
+    "file": "assets/RefundRequestList-0fb9df14.js",
     "imports": [
       "resources/js/app.js"
     ],
