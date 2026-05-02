@@ -43,8 +43,13 @@ function trackShipment($trackingNumber) {
         }
     }
 
+    $errorMsg = 'Failed to track shipment';
+    if (isset($result['response']['errors'][0]['message'])) {
+        $errorMsg .= ' - ' . $result['response']['errors'][0]['message'];
+    }
+
     return [
-        'error' => 'Failed to track shipment',
-        'details' => $result['response']['errors'] ?? 'Unknown error'
+        'error' => $errorMsg,
+        'details' => $result['response']
     ];
 }
