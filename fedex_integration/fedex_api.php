@@ -96,6 +96,7 @@ function fedexRequest($endpoint, $method, $body, $token) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_ENCODING, ''); // Automatically decode gzip/deflate
     
     // Add body if it's not a GET request and body is provided
     if ($body !== null && strtoupper($method) !== 'GET') {
