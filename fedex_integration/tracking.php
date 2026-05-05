@@ -47,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="result-box">
             <?php if (isset($trackingResult['error'])): ?>
                 <p style="color:red;">Error: <?php echo htmlspecialchars($trackingResult['error']); ?></p>
+                <pre style="background: #f4f4f4; padding: 10px; font-size: 12px; overflow-x: auto;">
+<?php print_r($trackingResult['details'] ?? 'No additional details provided.'); ?>
+                </pre>
             <?php else: ?>
                 <h3>Current Status: <span class="status-badge"><?php echo htmlspecialchars($trackingResult['status']); ?></span></h3>
                 <p><strong>Details:</strong> <?php echo htmlspecialchars($trackingResult['description']); ?></p>
