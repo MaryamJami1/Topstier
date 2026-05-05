@@ -643,6 +643,36 @@
                                         </label>
                                     </div>
                                 </v-col>
+
+                                <!-- FedEx Options -->
+                                <v-col v-for="rate in fedexRates" :key="rate.serviceType" cols="12" sm="6">
+                                    <div class="position-relative mb-3">
+                                        <label class="aiz-megabox d-block">
+                                            <input
+                                                type="radio"
+                                                name="delivery_option"
+                                                v-model="selectedDeliveryOption"
+                                                :value="rate.serviceType"
+                                            />
+                                            <span class="d-flex pa-3 aiz-megabox-elem fs-13">
+                                                <span class="aiz-rounded-check flex-shrink-0 mt-1"></span>
+                                                <span class="flex-grow-1 ps-3 lh-1-5">
+                                                    <span class="d-block fw-600">
+                                                        <span style="color:#4d148c; font-weight:bold; margin-right:4px;">FedEx</span> {{ rate.serviceName.replace('FedEx ', '') }}
+                                                    </span>
+                                                    <span class="d-block">
+                                                        {{ $t("delivery_cost") }}:
+                                                        <span class="fw-600">{{ format_price(rate.price) }}</span>
+                                                        <span v-if="is_addon_activated('multi_vendor')">/{{ $t("shop") }}</span>
+                                                    </span>
+                                                    <span class="d-block">{{ $t("delivery_timing") }}:
+                                                        <span class="fw-600">Live Rate</span>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </v-col>
                             </v-row>
                             <div
                                 class="border red white--text rounded pa-4"
@@ -1182,6 +1212,7 @@ export default {
             selectedDeliveryType: "",
             standardDeliveryCost: 0,
             expressDeliveryCost: 0,
+            fedexRates: [],
             addDialogShow: false,
             addressSelectedForEdit: {},
             rechargeDialogShow: false,
@@ -1248,15 +1279,23 @@ export default {
         ]),
         ...mapGetters("auth", ["currentUser"]),
         totalPrice() {
-            return this.selectedDeliveryType == "home_delivery"
-                ? this.selectedDeliveryOption === "standard"
-                    ? this.getCartPrice -
-                      this.getTotalCouponDiscount +
-                      this.standardDeliveryCost * this.getCartShops.length
-                    : this.getCartPrice -
-                      this.getTotalCouponDiscount +
-                      this.expressDeliveryCost * this.getCartShops.length
-                : this.getCartPrice - this.getTotalCouponDiscount;
+            if (this.selectedDeliveryType !== "home_delivery") {
+                return this.getCartPrice - this.getTotalCouponDiscount;
+            }
+
+            let shippingCost = 0;
+            if (this.selectedDeliveryOption === "standard") {
+                shippingCost = this.standardDeliveryCost * this.getCartShops.length;
+            } else if (this.selectedDeliveryOption === "express") {
+                shippingCost = this.expressDeliveryCost * this.getCartShops.length;
+            } else if (this.selectedDeliveryOption.startsWith('FEDEX_')) {
+                let selectedFedex = this.fedexRates.find(r => r.serviceType === this.selectedDeliveryOption);
+                if (selectedFedex) {
+                    shippingCost = selectedFedex.price * this.getCartShops.length;
+                }
+            }
+            
+            return this.getCartPrice - this.getTotalCouponDiscount + shippingCost;
         },
     },
     methods: {
@@ -1373,6 +1412,7 @@ export default {
             this.expressDeliveryCost = parseFloat(
                 res.data.express_delivery_cost
             );
+            this.fedexRates = res.data.fedex_rates || [];
         },
         async loadRegisteredEmails() {
             const res = await this.call_api("get", `customer-email`);
@@ -1581,6 +1621,13 @@ export default {
             formData.append("delivery_type", this.selectedDeliveryOption);
             formData.append("type_of_delivery", this.selectedDeliveryType);
             formData.append("pickup_point_id", this.selectedPickupPoint);
+
+            if (this.selectedDeliveryOption.startsWith('FEDEX_')) {
+                let selectedFedex = this.fedexRates.find(r => r.serviceType === this.selectedDeliveryOption);
+                if (selectedFedex) {
+                    formData.append("shipping_cost", selectedFedex.price);
+                }
+            }
 
             let cartIds = this.getSelectedCartIds;
             cartIds.forEach((item, index) => {

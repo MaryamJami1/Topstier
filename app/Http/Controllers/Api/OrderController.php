@@ -125,9 +125,9 @@ class OrderController extends Controller
         }
 
         // FedEx live rates
-        require_once base_path('staging/fedex_integration/config.php');
-        require_once base_path('staging/fedex_integration/fedex_api.php');
-        require_once base_path('staging/fedex_integration/shipping_rates.php');
+        require_once base_path('fedex_integration/config.php');
+        require_once base_path('fedex_integration/fedex_api.php');
+        require_once base_path('fedex_integration/shipping_rates.php');
 
         $weight = 1.0;
         if (auth('api')->check()) {
@@ -515,6 +515,54 @@ class OrderController extends Controller
                 'user_id' => auth('api')->user()->id,
                 'note' => 'Order has been placed.',
             ]);
+
+            // FedEx Shipment Creation
+            if (strpos($request->delivery_type, 'FEDEX_') !== false) {
+                try {
+                    require_once base_path('fedex_integration/config.php');
+                    require_once base_path('fedex_integration/fedex_api.php');
+                    require_once base_path('fedex_integration/shipment_creator.php');
+
+                    $shippingAddrArr = json_decode($order->shipping_address, true);
+                    $weight = 0;
+                    foreach ($shop_cart_items as $cartItem) {
+                        $w = $cartItem->variation->product->weight ?? 0;
+                        $weight += ($w > 0 ? $w : 1) * $cartItem->quantity;
+                    }
+                    if ($weight <= 0) $weight = 1.0;
+
+                    $stateCode = 'NY'; // Default; Valley Stream, NY
+                    $orderData = [
+                        'address_line1'    => $shippingAddrArr['address'] ?? '123 Main St',
+                        'city'             => $shippingAddrArr['city'] ?? 'Valley Stream',
+                        'state'            => $stateCode,
+                        'zip'              => $shippingAddrArr['postal_code'] ?? '11580',
+                        'country'          => 'US',
+                        'customer_name'    => $shippingAddrArr['name'] ?? ($user->name ?? 'Customer'),
+                        'customer_phone'   => $shippingAddrArr['phone'] ?? '5167175737',
+                        'shipping_service' => $request->delivery_type,
+                        'weight'           => $weight,
+                    ];
+
+                    $shipmentResult = createShipment($orderData);
+                    if (isset($shipmentResult['tracking_number'])) {
+                        DB::table('shipments')->insert([
+                            'order_id'        => $order->id,
+                            'tracking_number' => $shipmentResult['tracking_number'],
+                            'label_format'    => 'PDF',
+                            'label_data'      => $shipmentResult['label'] ?? null,
+                            'status'          => 'created',
+                            'created_at'      => now()
+                        ]);
+                        $order->tracking_number = $shipmentResult['tracking_number'];
+                        $order->courier_name    = 'FedEx';
+                        $order->tracking_url    = url('fedex_integration/tracking.php?tracking_number=' . $shipmentResult['tracking_number']);
+                        $order->save();
+                    }
+                } catch (\Exception $e) {
+                    Log::error("FedEx Shipment Creation Error: " . $e->getMessage());
+                }
+            }
         }
         $combined_order->grand_total = $grand_total;
         $combined_order->save();
@@ -915,6 +963,54 @@ class OrderController extends Controller
                 'user_id' => $request->create_account == 'true' ? $user->id : null,
                 'note' => 'Order has been placed.',
             ]);
+
+            // FedEx Shipment Creation
+            if (strpos($request->delivery_type, 'FEDEX_') !== false) {
+                try {
+                    require_once base_path('fedex_integration/config.php');
+                    require_once base_path('fedex_integration/fedex_api.php');
+                    require_once base_path('fedex_integration/shipment_creator.php');
+
+                    $shippingAddrArr = json_decode($order->shipping_address, true);
+                    $weight = 0;
+                    foreach ($shop_cart_items as $cartItem) {
+                        $w = $cartItem->variation->product->weight ?? 0;
+                        $weight += ($w > 0 ? $w : 1) * $cartItem->quantity;
+                    }
+                    if ($weight <= 0) $weight = 1.0;
+
+                    $stateCode = 'NY'; // Default; Valley Stream, NY
+                    $orderData = [
+                        'address_line1'    => $shippingAddrArr['address'] ?? '123 Main St',
+                        'city'             => $shippingAddrArr['city'] ?? 'Valley Stream',
+                        'state'            => $stateCode,
+                        'zip'              => $shippingAddrArr['postal_code'] ?? '11580',
+                        'country'          => 'US',
+                        'customer_name'    => $shippingAddrArr['name'] ?? ($user->name ?? 'Customer'),
+                        'customer_phone'   => $shippingAddrArr['phone'] ?? '5167175737',
+                        'shipping_service' => $request->delivery_type,
+                        'weight'           => $weight,
+                    ];
+
+                    $shipmentResult = createShipment($orderData);
+                    if (isset($shipmentResult['tracking_number'])) {
+                        DB::table('shipments')->insert([
+                            'order_id'        => $order->id,
+                            'tracking_number' => $shipmentResult['tracking_number'],
+                            'label_format'    => 'PDF',
+                            'label_data'      => $shipmentResult['label'] ?? null,
+                            'status'          => 'created',
+                            'created_at'      => now()
+                        ]);
+                        $order->tracking_number = $shipmentResult['tracking_number'];
+                        $order->courier_name    = 'FedEx';
+                        $order->tracking_url    = url('fedex_integration/tracking.php?tracking_number=' . $shipmentResult['tracking_number']);
+                        $order->save();
+                    }
+                } catch (\Exception $e) {
+                    \Log::error("FedEx Shipment Creation Error: " . $e->getMessage());
+                }
+            }
         }
         $combined_order->grand_total = $grand_total;
         $combined_order->save();
