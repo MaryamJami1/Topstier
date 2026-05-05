@@ -121,6 +121,13 @@ Route::controller(AddressController::class)->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// FedEx Tracking Routes
+Route::get('/fedex_integration/tracking.php', function () {
+    require base_path('fedex_integration/tracking.php');
+});
+Route::get('/fedex_integration/tracking_api.php', function () {
+    require base_path('fedex_integration/tracking_api.php');
+});
+
 Route::get('{slug}', [HomeController::class, 'index'])->where('slug', '.*');
-
-
