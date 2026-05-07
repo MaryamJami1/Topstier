@@ -254,8 +254,8 @@
                                 </tr>
                             @endif
                             @php
-                                $totalTax = $orderDetail->tax * $orderDetail->quantity;
-                                $total = $orderDetail->total;
+                                $totalTax += $orderDetail->tax * $orderDetail->quantity;
+                                $total += $orderDetail->total;
                             @endphp
                         @endforeach
                     @endforeach
