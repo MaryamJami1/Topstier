@@ -52,9 +52,21 @@ function getShippingRates($from, $to, $weight) {
     $rates = [];
 
     if ($result['status_code'] == 200 && isset($result['response']['output']['rateReplyDetails'])) {
+        $blockedServices = [
+            'FIRST_OVERNIGHT',
+            'PRIORITY_OVERNIGHT',
+            'FEDEX_2_DAY_AM'
+        ];
+
         foreach ($result['response']['output']['rateReplyDetails'] as $rateDetail) {
             $serviceName = $rateDetail['serviceName'] ?? 'Standard';
             $serviceType = $rateDetail['serviceType'] ?? 'FEDEX_GROUND';
+            
+            // Skip blocked services
+            if (in_array($serviceType, $blockedServices)) {
+                continue;
+            }
+
             $price = 0;
             
             // Extract the net charge for the shipment
