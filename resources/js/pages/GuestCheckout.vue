@@ -1137,7 +1137,7 @@ export default {
                 shippingCost = this.standardDeliveryCost * this.getCartShops.length;
             } else if (this.selectedDeliveryOption === "express") {
                 shippingCost = this.expressDeliveryCost * this.getCartShops.length;
-            } else if (this.selectedDeliveryOption.startsWith('FEDEX_')) {
+            } else {
                 let selectedFedex = this.fedexRates.find(r => r.serviceType === this.selectedDeliveryOption);
                 if (selectedFedex) {
                     shippingCost = selectedFedex.price * this.getCartShops.length;
@@ -1473,7 +1473,7 @@ export default {
             formData.append("type_of_delivery", this.selectedDeliveryType);
             formData.append("pickup_point_id", this.selectedPickupPoint);
 
-            if (this.selectedDeliveryOption.startsWith('FEDEX_')) {
+            if (this.selectedDeliveryOption !== "standard" && this.selectedDeliveryOption !== "express") {
                 let selectedFedex = this.fedexRates.find(r => r.serviceType === this.selectedDeliveryOption);
                 if (selectedFedex) {
                     formData.append("shipping_cost", selectedFedex.price);
