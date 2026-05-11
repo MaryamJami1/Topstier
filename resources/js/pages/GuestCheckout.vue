@@ -598,22 +598,7 @@
                                             >{{ $t("shipping_charge") }}</v-col
                                         >
                                         <v-col cols="4" class="fw-700">
-                                            {{
-                                                selectedDeliveryType ==
-                                                "home_delivery"
-                                                    ? this
-                                                          .selectedDeliveryOption ===
-                                                      "standard"
-                                                        ? format_price(
-                                                              standardDeliveryCost *
-                                                                  getCartShops.length
-                                                          )
-                                                        : format_price(
-                                                              expressDeliveryCost *
-                                                                  getCartShops.length
-                                                          )
-                                                    : 0
-                                            }}
+                                            {{ format_price(calculatedShippingCost) }}
                                         </v-col>
                                     </v-row>
                                     <v-row class="mt-0">
@@ -1142,9 +1127,9 @@ export default {
             "getCartProducts",
         ]),
         ...mapGetters("auth", ["currentUser"]),
-        totalPrice() {
+        calculatedShippingCost() {
             if (this.selectedDeliveryType !== "home_delivery") {
-                return this.getCartPrice - this.getTotalCouponDiscount;
+                return 0;
             }
 
             let shippingCost = 0;
@@ -1158,8 +1143,10 @@ export default {
                     shippingCost = selectedFedex.price * this.getCartShops.length;
                 }
             }
-            
-            return this.getCartPrice - this.getTotalCouponDiscount + shippingCost;
+            return shippingCost;
+        },
+        totalPrice() {
+            return this.getCartPrice - this.getTotalCouponDiscount + this.calculatedShippingCost;
         },
     },
     methods: {
@@ -1269,7 +1256,7 @@ export default {
                 "get",
                 `checkout/get-shipping-cost/${address_id}`
             );
-            this.selectedDeliveryOption = res.data.success ? "standard" : "";
+            this.selectedDeliveryOption = res.data.fedex_rates && res.data.fedex_rates.length > 0 ? res.data.fedex_rates[0].serviceType : (res.data.success ? "standard" : "");
             this.standardDeliveryCost = parseFloat(
                 res.data.standard_delivery_cost
             );
