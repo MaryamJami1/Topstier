@@ -40,34 +40,36 @@
         <div class="product-gallery-container" v-show="!isLoading">
             <template v-if="galleryImgaes && galleryImgaes.length > 0">
                 <!-- Main Gallery Swiper -->
-                <swiper
-                    :style="{
-                        '--swiper-navigation-color': '#fff',
-                        '--swiper-pagination-color': '#fff',
-                    }"
-                    :thumbs="{ swiper: thumbsSwiper }"
-                    :spaceBetween="10"
-                    :navigation="true"
-                    :modules="modules"
-                    class="main-gallery-swiper border-thin rounded overflow-hidden"
-                >
-                    <swiper-slide v-if="hasVideo" :key="sanitizedVideo">
-                        <div class="gallery-media-wrapper">
-                            <video
-                                :poster="sanitizedPoster || (selectedVariation.image ? selectedVariation.image : galleryImgaes[0])"
-                                controls
-                                preload="metadata"
-                                class="gallery-media-object"
-                            >
-                                <source :src="sanitizedVideo" :type="videoMimeType" />
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </swiper-slide>
-                    <swiper-slide v-for="(photo, i) in galleryImgaes" :key="i">
-                        <ProductImageZoom :imageSrc="selectedVariation.image ? selectedVariation.image : photo"/>
-                    </swiper-slide>
-                </swiper>
+                <div class="main-gallery-square-wrap border-thin rounded overflow-hidden">
+                    <swiper
+                        :style="{
+                            '--swiper-navigation-color': '#fff',
+                            '--swiper-pagination-color': '#fff',
+                        }"
+                        :thumbs="{ swiper: thumbsSwiper }"
+                        :spaceBetween="10"
+                        :navigation="true"
+                        :modules="modules"
+                        class="main-gallery-swiper"
+                    >
+                        <swiper-slide v-if="hasVideo" :key="sanitizedVideo">
+                            <div class="gallery-media-wrapper">
+                                <video
+                                    :poster="sanitizedPoster || (selectedVariation.image ? selectedVariation.image : galleryImgaes[0])"
+                                    controls
+                                    preload="metadata"
+                                    class="gallery-media-object"
+                                >
+                                    <source :src="sanitizedVideo" :type="videoMimeType" />
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </swiper-slide>
+                        <swiper-slide v-for="(photo, i) in galleryImgaes" :key="i">
+                            <ProductImageZoom :imageSrc="selectedVariation.image ? selectedVariation.image : photo"/>
+                        </swiper-slide>
+                    </swiper>
+                </div>
 
                 <!-- Thumbnail Swiper -->
                 <swiper
@@ -88,7 +90,9 @@
                         </div>
                     </swiper-slide>
                     <swiper-slide v-for="(photo, i) in galleryImgaes" :key="i" class="thumbnail-slide">
-                        <img :src="photo" class="thumb-media-img" />
+                        <div class="thumb-media-wrapper border-thin rounded overflow-hidden">
+                            <img :src="photo" class="thumb-media-img" :alt="'Product image ' + (i + 1)" />
+                        </div>
                     </swiper-slide>
                 </swiper>
             </template>
@@ -168,13 +172,28 @@ export default {
     width: 100%;
 }
 
-/* Main Gallery Swiper */
-.main-gallery-swiper {
+/* 1:1 square wrapper — forces true square regardless of Swiper JS height */
+.main-gallery-square-wrap {
+    position: relative;
     width: 100%;
-    height: 500px;
+    height: 0;
+    padding-top: 100%;
+    background: #fff;
+    overflow: hidden;
 }
 
-.main-gallery-swiper .swiper-slide {
+/* Main Gallery Swiper fills the square wrapper absolutely */
+.main-gallery-swiper {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+:deep(.main-gallery-swiper .swiper-slide) {
+    height: 100% !important;
+    width: 100% !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -195,7 +214,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    max-height: 500px;
+    max-height: 100%;
 }
 
 .gallery-media-wrapper video {
@@ -207,17 +226,18 @@ export default {
 /* Thumbnail Swiper */
 .thumbnail-swiper {
     width: 100%;
-    height: 120px;
     box-sizing: border-box;
     padding: 0;
 }
 
 .thumbnail-swiper .swiper-slide {
     width: 25%;
-    height: 100%;
     opacity: 0.5;
     cursor: pointer;
     transition: opacity 0.3s ease;
+    /* Force 1:1 aspect ratio for each thumbnail slide */
+    aspect-ratio: 1 / 1;
+    height: auto !important;
 }
 
 .thumbnail-swiper .swiper-slide-thumb-active {
@@ -237,17 +257,19 @@ export default {
 
 .thumb-media-wrapper {
     width: 100%;
-    height: 100%;
+    /* Enforce 1:1 square box */
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #f8f9fa;
+    overflow: hidden;
 }
 
 .thumb-media-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
@@ -294,30 +316,14 @@ export default {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .main-gallery-swiper {
-        height: 350px;
-    }
-    
     .gallery-media-object {
-        max-height: 350px;
-    }
-    
-    .thumbnail-swiper {
-        height: 90px;
+        max-height: 100%;
     }
 }
 
 @media (max-width: 576px) {
-    .main-gallery-swiper {
-        height: 280px;
-    }
-    
     .gallery-media-object {
-        max-height: 280px;
-    }
-    
-    .thumbnail-swiper {
-        height: 80px;
+        max-height: 100%;
     }
     
     .thumb-play-overlay {

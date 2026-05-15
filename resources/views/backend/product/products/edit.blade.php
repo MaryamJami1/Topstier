@@ -76,7 +76,7 @@
                     <div class="card-body">
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label" for="signinSrEmail">{{ translate('Thumbnail Image') }}
-                                <small>(300x300)</small></label>
+                                <small>(1:1 ratio)</small></label>
                             <div class="col-md-8">
                                 <div class="input-group" data-toggle="aizuploader" data-type="image" data-mu>
                                     <div class="input-group-prepend">
@@ -95,7 +95,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label"
-                                for="signinSrEmail">{{ translate('Gallery Images') }}<small>(600x600)</small></label>
+                                for="signinSrEmail">{{ translate('Gallery Images') }}<small>(1:1 ratio)</small></label>
                             <div class="col-md-8">
                                 <div class="input-group" data-toggle="aizuploader" data-type="image"
                                     data-multiple="true">

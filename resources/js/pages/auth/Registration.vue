@@ -378,12 +378,12 @@ export default {
           ) {
             this.$router.push({
               name: "VerifyAccount",
-              params: { email: this.form.email },
+              params: { user: this.form.email },
             });
           } else {
             this.$router.push({
               name: "VerifyAccount",
-              params: { phone: this.form.phone },
+              params: { user: this.form.phone },
             });
           }
 

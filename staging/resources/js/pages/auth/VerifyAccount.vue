@@ -196,7 +196,6 @@
                                 type="submit"
                                 :loading="loading"
                                 :disabled="loading"
-                                @click="verifyAccount"
                                 >{{ $t("verify") }}</v-btn
                             >
                             <v-btn
@@ -314,26 +313,35 @@ export default {
             this.form.phone = this.form.phone.replace(/\s/g, "");
 
             this.loading = true;
-            const res = await this.call_api("post", "auth/verify", this.form);
-            if (res.data.success) {
-                this.actionLogin(res.data);
-                this.showLoginDialog(false);
-                this.updateChatWindow(false);
+            try {
+                const res = await this.call_api("post", "auth/verify", this.form);
+                if (res && res.data && res.data.success) {
+                    this.actionLogin(res.data);
+                    this.showLoginDialog(false);
+                    this.updateChatWindow(false);
 
-                this.fetchWislistProducts();
-                this.fetchProductQuerries();
-                this.fetchCartProducts();
+                    this.fetchWislistProducts();
+                    this.fetchProductQuerries();
+                    this.fetchCartProducts();
 
-                this.$router.push(
-                    this.$route.query.redirect || { name: "DashBoard" }
-                );
-            } else {
+                    this.$router.push(
+                        this.$route.query.redirect || { name: "DashBoard" }
+                    );
+                } else {
+                    this.snack({
+                        message: res && res.data ? res.data.message : "Verification failed. Please try again.",
+                        color: "red",
+                    });
+                }
+            } catch (error) {
+                console.error("Verify account error:", error);
                 this.snack({
-                    message: res.data.message,
+                    message: "Something went wrong. Please try again.",
                     color: "red",
                 });
+            } finally {
+                this.loading = false;
             }
-            this.loading = false;
         },
         async resendCode() {
             this.v$.form.email.$touch();

@@ -150,7 +150,7 @@ class AuthController extends Controller
             }
 
             if (get_setting('customer_otp_with') != 'disabled') {
-                if (get_setting('customer_login_with') == 'email' || (get_setting('customer_login_with') == 'email_phone' && get_setting('customer_otp_with') == 'email') && $user->email_verified_at == null) {
+                if ((get_setting('customer_login_with') == 'email' || (get_setting('customer_login_with') == 'email_phone' && get_setting('customer_otp_with') == 'email')) && $user->email_verified_at == null) {
 
                     $user->notify(new EmailVerificationNotification());
                     return response()->json([
