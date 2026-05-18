@@ -43,6 +43,16 @@ self.addEventListener("fetch", event => {
         return;
     }
 
+    // Bug fix for Chrome: skip only-if-cached requests that are not same-origin
+    if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+        return;
+    }
+
+    // Skip non-http requests (like chrome-extension://)
+    if (!event.request.url.startsWith('http')) {
+        return;
+    }
+
     event.respondWith(
         caches.match(event.request)
             .then(response => {
